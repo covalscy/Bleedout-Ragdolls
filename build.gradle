@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated group/artifact coordinates, packaged LICENSE and NOTICE into jars, and added client2 run
 plugins {
     id 'java-library'
     id 'maven-publish'
@@ -5,7 +6,7 @@ plugins {
 }
 
 version = mod_version
-group = project.findProperty('group') ?: 'dev.leo.sableplayerragdoll'
+group = project.findProperty('group') ?: 'com.covalscy.bleedoutragdolls'
 description = project.findProperty('description') ?: ''
 
 base {
@@ -158,12 +159,28 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
             artifactId = "${mod_id}-${minecraft_version}"
+            pom {
+                name = mod_name
+                description = project.description
+                licenses {
+                    license {
+                        name = 'Apache-2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+            }
         }
     }
     repositories {
         mavenLocal()
     }
 }
+
+sourcesJar {
+    from(rootProject.file('LICENSE')) { into 'META-INF' }
+    from(rootProject.file('NOTICE')) { into 'META-INF' }
+}
+
 jar {
     from(rootProject.file('LICENSE')) { into 'META-INF' }
     from(rootProject.file('NOTICE')) { into 'META-INF' }

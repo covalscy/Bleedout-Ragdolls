@@ -1,3 +1,4 @@
+# Modified by covalscy (Bleedout fork): updated modId, displayName, authors, credits, description, logoFile, and mixin configs
 modLoader = "javafml"
 loaderVersion = "[4,)"
 license = "${license}"
@@ -5,13 +6,14 @@ license = "${license}"
 modId = "${mod_id}"
 version = "${version}"
 displayName = "${mod_name}"
-logoFile = "sable_player_ragdoll_icon.png"
+logoFile = "bleedout_ragdolls_icon.png"
+credits = "${credits}"
 authors = "${mod_author}"
 description = '''${description}'''
 [[mixins]]
-config = "sable_player_ragdoll.mixins.json"
+config = "bleedout_ragdolls.mixins.json"
 [[mixins]]
-config = "sable_player_ragdoll.neoforge.mixins.json"
+config = "bleedout_ragdolls.neoforge.mixins.json"
 [[dependencies."${mod_id}"]]
 modId = "neoforge"
 type = "required"
@@ -24,7 +26,7 @@ type = "required"
 versionRange = "[1.21.1]"
 ordering = "NONE"
 side = "BOTH"
-[[dependencies.${mod_id}]]
+[[dependencies."${mod_id}"]]
 modId = "sable"
 type = "required"
 versionRange = "[${sable_mod_version},)"

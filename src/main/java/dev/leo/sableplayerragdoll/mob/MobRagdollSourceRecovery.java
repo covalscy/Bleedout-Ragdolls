@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.mob;
 
 import dev.leo.sableplayerragdoll.physics.RagdollBlockLifetime;
@@ -7,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 
 public final class MobRagdollSourceRecovery {
-    private static final String KEY = "sable_player_ragdoll_mob_recovery";
+    private static final String KEY = "bleedout_ragdolls_mob_recovery";
 
     private MobRagdollSourceRecovery() {}
 

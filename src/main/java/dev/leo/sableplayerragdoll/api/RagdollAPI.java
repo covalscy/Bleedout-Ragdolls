@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.api;
 
 import dev.leo.sableplayerragdoll.block.entity.RagdollPartBlockEntity;
@@ -31,7 +32,7 @@ import org.joml.Vector3d;
 
 public final class RagdollAPI {
    private static final GameProfile DEFAULT_DUMMY_PROFILE = new GameProfile(
-      UUID.nameUUIDFromBytes("sable_player_ragdoll:dummy".getBytes(StandardCharsets.UTF_8)),
+      UUID.nameUUIDFromBytes("bleedout_ragdolls:dummy".getBytes(StandardCharsets.UTF_8)),
       "Dummy"
    );
 

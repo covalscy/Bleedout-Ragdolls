@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls and removed impact smoke/damage feedback
 package dev.leo.sableplayerragdoll.physics;
 
 import dev.leo.sableplayerragdoll.api.DespawnCondition;
@@ -28,7 +29,7 @@ import org.joml.Vector3d;
 public final class RagdollSessionManager {
    public static final ThreadLocal<Boolean> RAGDOLL_PIPE_ACTIVE = ThreadLocal.withInitial(() -> false);
 
-   public static final String RAGDOLL_USER_TAG = "sable_player_ragdoll";
+   public static final String RAGDOLL_USER_TAG = "bleedout_ragdolls";
    private static final String START_TICK_KEY = "startTick";
    private static final String PLAYER_ID_KEY = "playerId";
    private static final String NON_PLAYER_KEY = "nonPlayer";
@@ -188,7 +189,6 @@ public final class RagdollSessionManager {
          RagdollExpireHelper.expire(level, root, reasonFor(root, level, physics));
       } else {
          RagdollMotorEffects.tick(level, root);
-         applyImpactDamage(level, physics, serverContainer, root);
          pollAccessories(level, root);
       }
    }
@@ -353,42 +353,18 @@ public final class RagdollSessionManager {
 
       ImpactSample impact = sampleLargestLinkedVelocityDelta(level, physicsSystem, serverContainer, rootSubLevel);
       double delta = impact.delta();
-      double feedbackThreshold = Math.min(RagdollSettings.impactFeedbackThreshold(), RagdollSettings.impactDamageThreshold());
-      if (delta <= feedbackThreshold) return;
+      double damageThreshold = RagdollSettings.impactDamageThreshold();
+      if (delta <= damageThreshold) return;
 
       long gameTime = level.getGameTime();
       UUID rootSubLevelId = RagdollBlockOwnership.sessionId(rootSubLevel);
       if (gameTime < NEXT_IMPACT_DAMAGE_TICKS.getOrDefault(rootSubLevelId, Long.MIN_VALUE)) return;
 
       NEXT_IMPACT_DAMAGE_TICKS.put(rootSubLevelId, gameTime + (long) RagdollSettings.impactDamageCooldownTicks());
-      Vec3 position = impact.position();
-      spawnImpactParticles(level, position, delta, feedbackThreshold);
-      double damageThreshold = RagdollSettings.impactDamageThreshold();
-      boolean damageImpact = delta > damageThreshold;
-      net.minecraft.sounds.SoundEvent soundEvent = damageImpact
-         ? RagdollSoundEvents.ragdollImpact()
-         : RagdollSoundEvents.ragdollSmallImpact();
-      if (soundEvent != null) {
-         float volume = damageImpact ? 0.25F : 1.7F;
-         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-         level.playSound(null, position.x, position.y, position.z, soundEvent, SoundSource.PLAYERS, volume, pitch);
+      float damage = (float) Math.min(RagdollSettings.impactDamageMax(), (delta - damageThreshold) * RagdollSettings.impactDamageMultiplier());
+      if (damage > 0.0F) {
+         player.hurt(player.damageSources().flyIntoWall(), damage);
       }
-
-      if (damageImpact) {
-         float damage = (float) Math.min(RagdollSettings.impactDamageMax(), (delta - damageThreshold) * RagdollSettings.impactDamageMultiplier());
-         if (damage > 0.0F) {
-            player.hurt(player.damageSources().flyIntoWall(), damage);
-         }
-      }
-   }
-
-   private static void spawnImpactParticles(ServerLevel level, Vec3 position, double delta, double threshold) {
-      double maxDelta = threshold + RagdollSettings.impactDamageMax() / Math.max(0.001, RagdollSettings.impactDamageMultiplier());
-      double strength = Math.clamp((delta - threshold) / Math.max(0.001, maxDelta - threshold), 0.0, 1.0);
-      int count = 4 + (int) Math.round(strength * 10.0);
-      double spread = 0.36 + strength * 0.24;
-      double speed = 0.06;
-      level.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, position.x, position.y, position.z, count, spread, spread * 0.5, spread, speed);
    }
 
    private static ImpactSample sampleLargestLinkedVelocityDelta(ServerLevel level, SubLevelPhysicsSystem physicsSystem, ServerSubLevelContainer serverContainer, ServerSubLevel rootSubLevel) {

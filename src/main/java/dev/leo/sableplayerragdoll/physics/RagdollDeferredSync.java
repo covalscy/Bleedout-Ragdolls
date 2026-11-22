@@ -1,7 +1,9 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls and gated lifecycle logs behind debugLogging
 package dev.leo.sableplayerragdoll.physics;
 
 import dev.leo.sableplayerragdoll.SablePlayerRagdoll;
 import dev.leo.sableplayerragdoll.api.PlayerlessDespawnRule;
+import dev.leo.sableplayerragdoll.config.RagdollSettings;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
@@ -87,10 +89,12 @@ public final class RagdollDeferredSync {
 
    private static void launch(SubLevelPhysicsSystem physicsSystem, ServerSubLevelContainer serverContainer, ServerSubLevel serverSubLevel, PendingLaunch launch) {
       if (launch.seatEntityId() != null && !isSeatEntityLaunchable(physicsSystem.getLevel(), launch.seatEntityId())) {
-         SablePlayerRagdoll.LOGGER.info(
-            "[sable_player_ragdoll] dropping queued ragdoll {} — seat entity died or left before launch",
-            RagdollRegistry.shortId(serverSubLevel.getUniqueId())
-         );
+         if (RagdollSettings.debugLogging()) {
+            SablePlayerRagdoll.LOGGER.info(
+               "[bleedout_ragdolls] dropping queued ragdoll {} — seat entity died or left before launch",
+               RagdollRegistry.shortId(serverSubLevel.getUniqueId())
+            );
+         }
          RagdollRegistry.dropFailed(physicsSystem, serverSubLevel);
          return;
       }
@@ -111,15 +115,17 @@ public final class RagdollDeferredSync {
          if (launch.nonPlayer()) {
             RagdollSessionManager.setPlayerlessDespawnRule(serverSubLevel, launch.despawnRule());
          }
-         SablePlayerRagdoll.LOGGER.info(
-            "[sable_player_ragdoll] ragdoll launched {} linear={} angular={} parts={}",
-            RagdollRegistry.shortId(serverSubLevel.getUniqueId()),
-            RagdollRegistry.fmtVec3dc(launch.linearVelocity()),
-            RagdollRegistry.fmtVec3dc(launch.angularVelocity()),
-            launchedParts
-         );
+         if (RagdollSettings.debugLogging()) {
+            SablePlayerRagdoll.LOGGER.info(
+               "[bleedout_ragdolls] ragdoll launched {} linear={} angular={} parts={}",
+               RagdollRegistry.shortId(serverSubLevel.getUniqueId()),
+               RagdollRegistry.fmtVec3dc(launch.linearVelocity()),
+               RagdollRegistry.fmtVec3dc(launch.angularVelocity()),
+               launchedParts
+            );
+         }
       } catch (Throwable var9) {
-         SablePlayerRagdoll.LOGGER.warn("[sable_player_ragdoll] launch failed for ragdoll {}: {}", serverSubLevel.getUniqueId(), var9.toString());
+         SablePlayerRagdoll.LOGGER.warn("[bleedout_ragdolls] launch failed for ragdoll {}: {}", serverSubLevel.getUniqueId(), var9.toString());
          RagdollRegistry.dropFailed(physicsSystem, serverSubLevel, launch.seatEntityId());
       }
    }

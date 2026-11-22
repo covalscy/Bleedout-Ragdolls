@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.neoforge.network;
 
 import dev.leo.sableplayerragdoll.physics.RagdollControlHelper;
@@ -12,7 +13,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record RagdollInputPacket(float strafe, float forward) implements CustomPacketPayload {
    public static final Type<RagdollInputPacket> TYPE = new Type<>(
-      ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "ragdoll_input")
+      ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "ragdoll_input")
    );
    public static final StreamCodec<RegistryFriendlyByteBuf, RagdollInputPacket> STREAM_CODEC = StreamCodec.composite(
       ByteBufCodecs.FLOAT, RagdollInputPacket::strafe,

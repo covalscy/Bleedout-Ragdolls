@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.neoforge.network;
 
 import dev.leo.sableplayerragdoll.physics.RagdollControlHelper;
@@ -18,7 +19,7 @@ public record RagdollArmInputPacket(boolean leftReach, boolean rightReach, boole
    private static final int RIGHT_GRAB = 1 << 3;
 
    public static final Type<RagdollArmInputPacket> TYPE = new Type<>(
-      ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "ragdoll_arm_input")
+      ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "ragdoll_arm_input")
    );
    public static final StreamCodec<RegistryFriendlyByteBuf, RagdollArmInputPacket> STREAM_CODEC = StreamCodec.composite(
       ByteBufCodecs.BYTE, RagdollArmInputPacket::flags,

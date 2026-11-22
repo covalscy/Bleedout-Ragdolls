@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): renamed rootProject.name to bleedout-ragdolls
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -16,4 +17,4 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
-rootProject.name = 'sable-player-ragdoll'
+rootProject.name = 'bleedout-ragdolls'

@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.physics;
 
 import dev.leo.sableplayerragdoll.SablePlayerRagdoll;
@@ -22,7 +23,7 @@ public final class RagdollSeatingHelper {
          RagdollSeatBlock.sitDown(level, plotSeatPos, entity);
          if (!(entity.getVehicle() instanceof RagdollSeatEntity seat)) {
             SablePlayerRagdoll.LOGGER.warn(
-               "[sable_player_ragdoll] sitDown did not mount {} on ragdoll {} at {}",
+               "[bleedout_ragdolls] sitDown did not mount {} on ragdoll {} at {}",
                targetName(entity), RagdollRegistry.shortId(ragdollSubLevel.getUniqueId()), plotSeatPos.toShortString()
             );
          } else {
@@ -33,7 +34,7 @@ public final class RagdollSeatingHelper {
             }
             if (RagdollSettings.debugLogging()) {
                SablePlayerRagdoll.LOGGER.info(
-                  "[sable_player_ragdoll] seated {} on ragdoll {} at plot {}",
+                  "[bleedout_ragdolls] seated {} on ragdoll {} at plot {}",
                   targetName(entity), RagdollRegistry.shortId(ragdollSubLevel.getUniqueId()), plotSeatPos.toShortString()
                );
             }

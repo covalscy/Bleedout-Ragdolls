@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.compat.jade;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import snownee.jade.impl.ui.HealthElement;
 public final class RagdollPartTooltipProvider implements IBlockComponentProvider {
     public static final RagdollPartTooltipProvider INSTANCE = new RagdollPartTooltipProvider();
 
-    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "ragdoll_part");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "ragdoll_part");
 
     private RagdollPartTooltipProvider() {
     }
@@ -56,14 +57,14 @@ public final class RagdollPartTooltipProvider implements IBlockComponentProvider
             if (max > 0) {
                 final float health = data.getFloat("Health");
                 stats.add(new HealthElement(max, health).tag(
-                        ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "ragdoll_health")));
+                        ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "ragdoll_health")));
             }
         }
         if (data.contains("Armor")) {
             final float armor = data.getFloat("Armor");
             if (armor > 0) {
                 stats.add(new ArmorElement(armor).tag(
-                        ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "ragdoll_armor")));
+                        ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "ragdoll_armor")));
             }
         }
         if (!stats.isEmpty()) {

@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll;
 
 import net.minecraft.core.registries.Registries;
@@ -10,8 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 
 public final class RagdollItemTags {
-   private static final String TEST_MARKER_KEY = "sable_player_ragdoll_ragdoll_on_hit";
-   private static final String TEST_MARKER_CRIT_KEY = "sable_player_ragdoll_critical_only";
+   private static final String TEST_MARKER_KEY = "bleedout_ragdolls_ragdoll_on_hit";
+   private static final String TEST_MARKER_CRIT_KEY = "bleedout_ragdolls_critical_only";
    public static final TagKey<Item> RAGDOLL_ON_HIT = TagKey.create(
       Registries.ITEM,
       ResourceLocation.fromNamespaceAndPath(SablePlayerRagdoll.MOD_ID, "ragdoll_on_hit")

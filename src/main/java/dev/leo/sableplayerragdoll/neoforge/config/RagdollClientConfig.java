@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.neoforge.config;
 
 import net.neoforged.fml.ModContainer;
@@ -10,11 +11,11 @@ import net.neoforged.neoforge.common.ModConfigSpec.DoubleValue;
 public final class RagdollClientConfig {
    private static final Builder BUILDER = new Builder();
 
-   public static final BooleanValue USE_FIRST_PERSON_CAMERA = BUILDER.translation("sable_player_ragdoll.configuration.use_first_person_camera")
+   public static final BooleanValue USE_FIRST_PERSON_CAMERA = BUILDER.translation("bleedout_ragdolls.configuration.use_first_person_camera")
       .comment("When ragdolled, switch to the normal first-person camera instead of the unlocked Sable contraption camera.")
       .define("useFirstPersonCamera", false);
 
-   public static final DoubleValue SUB_LEVEL_CAMERA_DISTANCE = BUILDER.translation("sable_player_ragdoll.configuration.sub_level_camera_distance")
+   public static final DoubleValue SUB_LEVEL_CAMERA_DISTANCE = BUILDER.translation("bleedout_ragdolls.configuration.sub_level_camera_distance")
       .comment(
          "Base distance (blocks) for the unlocked Sable ragdoll camera before scroll zoom. Sable multiplies this by",
          "~1.75 and clamps it against terrain, so the effective pull-back is larger. Vanilla default is 4.0; lower it",
@@ -22,7 +23,7 @@ public final class RagdollClientConfig {
       )
       .defineInRange("subLevelCameraDistance", 4.0, 0.5, 16.0);
 
-   public static final BooleanValue SHOW_CONTROLS_HINT = BUILDER.translation("sable_player_ragdoll.configuration.show_controls_hint")
+   public static final BooleanValue SHOW_CONTROLS_HINT = BUILDER.translation("bleedout_ragdolls.configuration.show_controls_hint")
       .comment("Show the on-screen controls hint popup when entering ragdoll mode.")
       .define("showControlsHint", true);
 

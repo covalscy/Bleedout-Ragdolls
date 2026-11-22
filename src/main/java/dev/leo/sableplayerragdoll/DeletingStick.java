@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll;
 
 import dev.leo.sableplayerragdoll.api.RagdollAPI;
@@ -13,7 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 
 public final class DeletingStick {
-   private static final String MARKER_KEY = "sable_player_ragdoll_deleting_stick";
+   private static final String MARKER_KEY = "bleedout_ragdolls_deleting_stick";
 
    private DeletingStick() {
    }

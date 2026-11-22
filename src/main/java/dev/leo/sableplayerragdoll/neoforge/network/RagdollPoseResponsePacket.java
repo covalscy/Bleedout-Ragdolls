@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.neoforge.network;
 
 import dev.leo.sableplayerragdoll.api.RagdollAsyncPoseRequests;
@@ -15,7 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record RagdollPoseResponsePacket(long requestId, RagdollLimbOptions pose, float bodyYaw) implements CustomPacketPayload {
    public static final Type<RagdollPoseResponsePacket> TYPE = new Type<>(
-      ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "pose_response")
+      ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "pose_response")
    );
    public static final StreamCodec<RegistryFriendlyByteBuf, RagdollPoseResponsePacket> STREAM_CODEC = StreamCodec.of(
       RagdollPoseResponsePacket::write,

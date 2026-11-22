@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): restore shrunk player dimensions immediately after leaving ragdoll
 package dev.leo.sableplayerragdoll.neoforge.mixin;
 
 import dev.leo.sableplayerragdoll.entity.RagdollSeatEntity;
@@ -66,5 +67,13 @@ public abstract class PlayerRagdollHiddenMixin {
     @Inject(method = "doPush", at = @At("HEAD"), cancellable = true)
     private void stopPushPair(Entity other, CallbackInfo ci) {
         if (isHiddenRagdollSource()) ci.cancel();
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void restoreDimensionsAfterRagdoll(CallbackInfo ci) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (self instanceof Player && !isHiddenRagdollSource() && self.getBbHeight() < 0.5F) {
+            self.refreshDimensions();
+        }
     }
 }

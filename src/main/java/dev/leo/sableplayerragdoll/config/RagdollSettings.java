@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): removed allowManualTrigger setting, disabled joint-pair self-collision and debugLogging by default
 package dev.leo.sableplayerragdoll.config;
 
 public final class RagdollSettings {
@@ -7,7 +8,7 @@ public final class RagdollSettings {
    private static double maxVelocityDelta = 120.0;
    private static double maxFlingSpeed = 128.0;
    private static double ragdollMaxLaunchSpeed = 128.0;
-   private static boolean partSelfCollision = true;
+   private static boolean partSelfCollision = false;
    private static boolean grabBreakEnabled = true;
    private static double grabBreakDistance = 0.275;
    private static boolean expireAfterDuration = false;
@@ -19,16 +20,15 @@ public final class RagdollSettings {
    private static int cooldownTicks = 60;
    private static boolean affectCreative = true;
    private static boolean autoSeatOnTrigger = true;
-   private static boolean allowManualTrigger = true;
    private static int minDismountTicks = 60;
-   private static boolean impactDamageEnabled = true;
+   private static boolean impactDamageEnabled = false;
    private static double impactFeedbackThreshold = 4.0;
    private static double impactDamageThreshold = 12.0;
    private static double impactDamageMultiplier = 0.75;
    private static double impactDamageMax = 20.0;
    private static int impactDamageCooldownTicks = 10;
 
-   private static boolean debugLogging = true;
+   private static boolean debugLogging = false;
 
    private RagdollSettings() {
    }
@@ -86,9 +86,6 @@ public final class RagdollSettings {
 
    public static boolean autoSeatOnTrigger() { return autoSeatOnTrigger; }
    public static void setAutoSeatOnTrigger(boolean v) { autoSeatOnTrigger = v; }
-
-   public static boolean allowManualTrigger() { return allowManualTrigger; }
-   public static void setAllowManualTrigger(boolean v) { allowManualTrigger = v; }
 
    public static int minDismountTicks() { return minDismountTicks; }
    public static void setMinDismountTicks(int v) { minDismountTicks = Math.max(0, v); }

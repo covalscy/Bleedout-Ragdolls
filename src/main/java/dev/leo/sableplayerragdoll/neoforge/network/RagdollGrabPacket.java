@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.neoforge.network;
 
 import dev.leo.sableplayerragdoll.RagdollGrabCallbacks;
@@ -18,7 +19,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record RagdollGrabPacket(BlockPos pos, boolean release) implements CustomPacketPayload {
    public static final Type<RagdollGrabPacket> TYPE = new Type<>(
-      ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "grab")
+      ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "grab")
    );
    public static final StreamCodec<RegistryFriendlyByteBuf, RagdollGrabPacket> STREAM_CODEC = StreamCodec.composite(
       BlockPos.STREAM_CODEC, RagdollGrabPacket::pos,

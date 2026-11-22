@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.neoforge;
 
 import dev.leo.sableplayerragdoll.block.RagdollPartBlock;
@@ -22,10 +23,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredRegister.Blocks;
 
 public final class RagdollBlockRegistration {
-   public static final Blocks BLOCKS = DeferredRegister.createBlocks("sable_player_ragdoll");
-   public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, "sable_player_ragdoll");
-   public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, "sable_player_ragdoll");
-   public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, "sable_player_ragdoll");
+   public static final Blocks BLOCKS = DeferredRegister.createBlocks("bleedout_ragdolls");
+   public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, "bleedout_ragdolls");
+   public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, "bleedout_ragdolls");
+   public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, "bleedout_ragdolls");
 
    public static final DeferredBlock<RagdollSeatBlock> RAGDOLL_SEAT = BLOCKS.register(
       "ragdoll_seat", () -> new RagdollSeatBlock(Properties.of().mapColor(MapColor.NONE).strength(2.0F).noOcclusion().noLootTable().noTerrainParticles())
@@ -42,7 +43,7 @@ public final class RagdollBlockRegistration {
             .sized(0.25F, 0.35F)
             .passengerAttachments(0.1F)
             .setShouldReceiveVelocityUpdates(false)
-            .build("sable_player_ragdoll:ragdoll_seat")
+            .build("bleedout_ragdolls:ragdoll_seat")
    );
    public static final DeferredHolder<EntityType<?>, EntityType<RagdollDollEntity>> RAGDOLL_DOLL_ENTITY = ENTITY_TYPES.register(
       "ragdoll_doll",
@@ -50,15 +51,15 @@ public final class RagdollBlockRegistration {
             .sized(0.6F, 1.8F)
             .clientTrackingRange(10)
             .updateInterval(3)
-            .build("sable_player_ragdoll:ragdoll_doll")
+            .build("bleedout_ragdolls:ragdoll_doll")
    );
    public static final DeferredHolder<SoundEvent, SoundEvent> RAGDOLL_IMPACT_SOUND = SOUND_EVENTS.register(
       "ragdoll_impact",
-      () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "ragdoll_impact"))
+      () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "ragdoll_impact"))
    );
    public static final DeferredHolder<SoundEvent, SoundEvent> RAGDOLL_SMALL_IMPACT_SOUND = SOUND_EVENTS.register(
       "ragdoll_small_impact",
-      () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "ragdoll_small_impact"))
+      () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "ragdoll_small_impact"))
    );
 
    private RagdollBlockRegistration() {

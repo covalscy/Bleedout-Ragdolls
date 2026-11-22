@@ -1,0 +1,17 @@
+{
+  "selector": "bleedout_ragdolls:ragdoll_part",
+  "properties": {
+    "sable:mass": 0.18,
+    "sable:volume": 0.3,
+    "sable:friction": 0.45,
+    "sable:restitution": 0.0
+  },
+  "overrides": {
+    "body_part=torso": {
+      "sable:mass": 0.5
+    },
+    "body_part=head": {
+      "sable:mass": 0.25
+    }
+  }
+}

@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.mob;
 
 import java.util.Collection;
@@ -14,7 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
 public final class MobRagdollBlacklistSavedData extends SavedData {
-   private static final String DATA_NAME = "sable_player_ragdoll_mob_ragdoll_blacklist";
+   private static final String DATA_NAME = "bleedout_ragdolls_mob_ragdoll_blacklist";
    private static final SavedData.Factory<MobRagdollBlacklistSavedData> FACTORY = new SavedData.Factory<>(
       MobRagdollBlacklistSavedData::new, MobRagdollBlacklistSavedData::load, null
    );

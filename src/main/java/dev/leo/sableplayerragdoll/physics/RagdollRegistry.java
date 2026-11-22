@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): removed manual H-keybind trigger methods
 package dev.leo.sableplayerragdoll.physics;
 
 import dev.leo.sableplayerragdoll.block.entity.RagdollPartBlockEntity;
@@ -8,7 +9,6 @@ import dev.leo.sableplayerragdoll.api.RagdollStartEvent;
 import dev.leo.sableplayerragdoll.block.entity.RagdollPartBlockEntity.BodyPart;
 import dev.leo.sableplayerragdoll.config.RagdollSettings;
 import dev.leo.sableplayerragdoll.api.PlayerlessDespawnRule;
-import dev.leo.sableplayerragdoll.RagdollKeybindExample;
 import dev.leo.sableplayerragdoll.api.RagdollEquipmentScope;
 import dev.leo.sableplayerragdoll.api.RagdollEquipmentSnapshot;
 import dev.leo.sableplayerragdoll.api.RagdollLimbConfig;
@@ -77,7 +77,7 @@ public final class RagdollRegistry {
       long gameTime = level.getGameTime();
       if (isLaunchSuppressed(level, playerId, gameTime)) {
          if (RagdollSettings.debugLogging()) {
-            SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] launch ignored for {} (already ragdolled or launch already in flight)",
+            SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] launch ignored for {} (already ragdolled or launch already in flight)",
                player.getGameProfile().getName());
          }
          return null;
@@ -99,7 +99,7 @@ public final class RagdollRegistry {
 
       BlockPos plotSeat = ragdollBody.getPlot().getCenterBlock();
       if (!ensureValidMass(ragdollBody, List.of(plotSeat))) {
-         SablePlayerRagdoll.LOGGER.warn("[sable_player_ragdoll] ragdoll {} has no valid mass — dropping", shortId(ragdollBody.getUniqueId()));
+         SablePlayerRagdoll.LOGGER.warn("[bleedout_ragdolls] ragdoll {} has no valid mass — dropping", shortId(ragdollBody.getUniqueId()));
          dropFailed(physicsSystem, ragdollBody);
          return null;
       }
@@ -152,20 +152,22 @@ public final class RagdollRegistry {
       ServerSubLevel ragdollBody = doll.rootSubLevel();
       BlockPos plotSeat = ragdollBody.getPlot().getCenterBlock();
       if (!ensureValidMass(ragdollBody, List.of(plotSeat))) {
-         SablePlayerRagdoll.LOGGER.warn("[sable_player_ragdoll] playerless ragdoll {} has no valid mass - dropping", shortId(ragdollBody.getUniqueId()));
+         SablePlayerRagdoll.LOGGER.warn("[bleedout_ragdolls] playerless ragdoll {} has no valid mass - dropping", shortId(ragdollBody.getUniqueId()));
          dropFailed(physicsSystem, ragdollBody);
          return null;
       }
 
       RagdollDeferredSync.queuePlayerlessLaunch(ragdollBody, linear, angular, false, despawnRule);
-      SablePlayerRagdoll.LOGGER.info(
-         "[sable_player_ragdoll] queued playerless ragdoll {} at {} heading={} ({} parts, {} constraints)",
-         shortId(ragdollBody.getUniqueId()),
-         BlockPos.containing(baseCenter).toShortString(),
-         fmtVec3dc(new Vector3d(forward.x, forward.y, forward.z)),
-         doll.allSubLevels().size(),
-         doll.constraints()
-      );
+      if (RagdollSettings.debugLogging()) {
+         SablePlayerRagdoll.LOGGER.info(
+            "[bleedout_ragdolls] queued playerless ragdoll {} at {} heading={} ({} parts, {} constraints)",
+            shortId(ragdollBody.getUniqueId()),
+            BlockPos.containing(baseCenter).toShortString(),
+            fmtVec3dc(new Vector3d(forward.x, forward.y, forward.z)),
+            doll.allSubLevels().size(),
+            doll.constraints()
+         );
+      }
       return ragdollBody;
    }
 
@@ -190,40 +192,13 @@ public final class RagdollRegistry {
       return body;
    }
 
-   // Manual keybind trigger (sent from client). Uses player's current movement as launch velocity.
-   public static boolean triggerManual(ServerPlayer player) {
-      return triggerManual(player, new RagdollPoseSnapshot(RagdollLimbOptions.defaults(), player.yBodyRot));
-   }
-
-   public static boolean triggerManual(ServerPlayer player, RagdollPoseSnapshot initialPose) {
-      if (!RagdollSettings.enabled()) return false;
-      if (!RagdollSettings.allowManualTrigger()) {
-         if (RagdollSettings.debugLogging()) {
-            SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] manual ragdoll ignored for {} (manual trigger disabled)", player.getGameProfile().getName());
-         }
-         return false;
-      }
-      ServerLevel level = player.serverLevel();
-      long gameTime = level.getGameTime();
-      if (!canTarget(player, gameTime, true)) {
-         SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] manual ragdoll ignored for {} (not a valid target)", player.getGameProfile().getName());
-         return false;
-      }
-      boolean launched = RagdollKeybindExample.launch(player, initialPose) != null;
-      if (launched) {
-         SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] manual ragdoll triggered for {}",
-            player.getGameProfile().getName());
-      }
-      return launched;
-   }
-
    public static boolean triggerWeaponHit(ServerPlayer attacker, ServerPlayer target) {
       if (!RagdollSettings.enabled()) return false;
       ServerLevel level = target.serverLevel();
       long gameTime = level.getGameTime();
       if (!canTarget(target, gameTime, true)) {
          if (RagdollSettings.debugLogging()) {
-            SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] weapon ragdoll ignored for {} (not a valid target)", target.getGameProfile().getName());
+            SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] weapon ragdoll ignored for {} (not a valid target)", target.getGameProfile().getName());
          }
          return false;
       }
@@ -236,7 +211,7 @@ public final class RagdollRegistry {
       Vector3d angular = new Vector3d();
       ServerSubLevel body = launch(level, target, linear, angular, false, RagdollSettings.autoSeatOnTrigger());
       if (body != null && RagdollSettings.debugLogging()) {
-         SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] weapon ragdoll {} for {} by {} launch={} m/s",
+         SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] weapon ragdoll {} for {} by {} launch={} m/s",
             shortId(body.getUniqueId()), target.getGameProfile().getName(), attacker.getGameProfile().getName(), fmtVec3dc(linear));
       }
       return body != null;
@@ -247,7 +222,9 @@ public final class RagdollRegistry {
       if (RagdollSettings.enabled()) {
          if (!loggedFirstTick) {
             loggedFirstTick = true;
-            SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] ragdoll system active (debug={})", RagdollSettings.debugLogging());
+            if (RagdollSettings.debugLogging()) {
+               SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] ragdoll system active (debug={})", RagdollSettings.debugLogging());
+            }
          }
          RagdollDeferredSync.flush(physicsSystem);
       }
@@ -287,8 +264,10 @@ public final class RagdollRegistry {
       RagdollLimbOptions limbs = RagdollAssemblyData.limbs(level, rootId);
       RagdollAssemblyHelper.clearJoints(rootId);
       RagdollAssemblyHelper.restoreConstraints(level, loadedParts, limbs);
-      SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] restored playerless ragdoll {} ({} parts)",
-         shortId(rootId), loadedParts.size());
+      if (RagdollSettings.debugLogging()) {
+         SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] restored playerless ragdoll {} ({} parts)",
+            shortId(rootId), loadedParts.size());
+      }
    }
 
    private static boolean hasLiveJoints(UUID rootId) {
@@ -458,8 +437,10 @@ public final class RagdollRegistry {
       Vec3 baseCenter = player.position();
       RagdollAssemblyHelper.Doll doll = RagdollAssemblyHelper.spawn(level, player, baseCenter, right, up, forward, false, limbs);
       if (doll == null) return null;
-      SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] assembled ragdoll {} for {} ({} parts, {} constraints)",
-         shortId(doll.rootSubLevel().getUniqueId()), player.getGameProfile().getName(), doll.allSubLevels().size(), doll.constraints());
+      if (RagdollSettings.debugLogging()) {
+         SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] assembled ragdoll {} for {} ({} parts, {} constraints)",
+            shortId(doll.rootSubLevel().getUniqueId()), player.getGameProfile().getName(), doll.allSubLevels().size(), doll.constraints());
+      }
       return doll.rootSubLevel();
    }
 
@@ -481,8 +462,10 @@ public final class RagdollRegistry {
       Vec3 baseCenter = player.position();
       RagdollAssemblyHelper.Doll doll = RagdollAssemblyHelper.spawn(level, player, baseCenter, right, up, forward, true, limbs);
       if (doll == null) return null;
-      SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] assembled elytra ragdoll {} for {} ({} parts, {} constraints)",
-         shortId(doll.rootSubLevel().getUniqueId()), player.getGameProfile().getName(), doll.allSubLevels().size(), doll.constraints());
+      if (RagdollSettings.debugLogging()) {
+         SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] assembled elytra ragdoll {} for {} ({} parts, {} constraints)",
+            shortId(doll.rootSubLevel().getUniqueId()), player.getGameProfile().getName(), doll.allSubLevels().size(), doll.constraints());
+      }
       return doll.rootSubLevel();
    }
 
@@ -503,7 +486,7 @@ public final class RagdollRegistry {
       String reject = canTargetReject(player, gameTime, manualTrigger);
       if (reject != null) {
          if (RagdollSettings.debugLogging()) {
-            SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] canTarget({}) rejected: {}", player.getGameProfile().getName(), reject);
+            SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] canTarget({}) rejected: {}", player.getGameProfile().getName(), reject);
          }
          return false;
       }

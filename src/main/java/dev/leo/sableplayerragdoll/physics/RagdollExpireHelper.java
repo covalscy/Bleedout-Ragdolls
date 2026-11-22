@@ -1,8 +1,10 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls and gated expire log behind debugLogging
 package dev.leo.sableplayerragdoll.physics;
 
 import dev.leo.sableplayerragdoll.RagdollSeatCallbacks;
 import dev.leo.sableplayerragdoll.SablePlayerRagdoll;
 import dev.leo.sableplayerragdoll.api.RagdollEndEvent;
+import dev.leo.sableplayerragdoll.config.RagdollSettings;
 import dev.leo.sableplayerragdoll.entity.RagdollSeatEntity;
 import dev.ryanhcode.sable.Sable;
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
@@ -38,7 +40,9 @@ public final class RagdollExpireHelper {
          RagdollSessionManager.markExpiring(subLevel, reason);
          unseatRider(level, subLevel);
          discardSeatEntities(level, subLevel);
-         SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] expiring ragdoll {} ({})", RagdollRegistry.shortId(RagdollBlockOwnership.sessionId(subLevel)), reason);
+         if (RagdollSettings.debugLogging()) {
+            SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] expiring ragdoll {} ({})", RagdollRegistry.shortId(RagdollBlockOwnership.sessionId(subLevel)), reason);
+         }
       }
       RagdollSessionManager.unregister(subLevel);
       RagdollDeferredSync.cancel(RagdollBlockOwnership.sessionId(subLevel));

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "body_part=head": { "model": "bleedout_ragdolls:block/ragdoll_part" },
+    "body_part=torso": { "model": "bleedout_ragdolls:block/ragdoll_part" },
+    "body_part=left_arm": { "model": "bleedout_ragdolls:block/ragdoll_part" },
+    "body_part=right_arm": { "model": "bleedout_ragdolls:block/ragdoll_part" },
+    "body_part=left_leg": { "model": "bleedout_ragdolls:block/ragdoll_part" },
+    "body_part=right_leg": { "model": "bleedout_ragdolls:block/ragdoll_part" }
+  }
+}

@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "dev.leo.sableplayerragdoll.neoforge.mixin",
-  "refmap": "sable_player_ragdoll.refmap.json",
+  "refmap": "bleedout_ragdolls.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "EntityRagdollHiddenMixin",

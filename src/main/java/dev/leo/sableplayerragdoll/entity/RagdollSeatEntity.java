@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): refresh rider dimensions on dismount to fix nametag height
 package dev.leo.sableplayerragdoll.entity;
 
 import dev.leo.sableplayerragdoll.physics.RagdollBlockLifetime;
@@ -142,6 +143,7 @@ public final class RagdollSeatEntity extends Entity implements IEntityWithComple
       if (entity instanceof TamableAnimal tamable) {
          tamable.setInSittingPose(false);
       }
+      entity.refreshDimensions();
    }
 
    public Vec3 getDismountLocationForPassenger(LivingEntity passenger) {

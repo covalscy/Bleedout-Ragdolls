@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): removed impact smoke particles and upward knockup launch on hit
 package dev.leo.sableplayerragdoll.mob;
 
 import dev.leo.sableplayerragdoll.physics.RagdollBlockLifetime;
@@ -1181,20 +1182,9 @@ public final class MobRagdollAssembly {
                 level.playSound(null, impactPos.x, impactPos.y, impactPos.z,
                         heavy ? net.minecraft.sounds.SoundEvents.PLAYER_BIG_FALL : net.minecraft.sounds.SoundEvents.PLAYER_SMALL_FALL,
                         net.minecraft.sounds.SoundSource.PLAYERS, volume, pitch);
-                int particleCount = (int) Math.min(20, maxDelta);
-                for (int p = 0; p < particleCount; p++) {
-                    level.sendParticles(
-                            net.minecraft.core.particles.ParticleTypes.CAMPFIRE_COSY_SMOKE,
-                            impactPos.x + (level.random.nextDouble() - 0.5) * 0.5,
-                            impactPos.y + level.random.nextDouble() * 0.5,
-                            impactPos.z + (level.random.nextDouble() - 0.5) * 0.5,
-                            1, 0.0, 0.0, 0.0, 0.01);
-                }
             }
         }
     }
-
-    private static final double KNOCKUP_STRENGTH = 4.0;
 
     public static void explodeCreeperRagdoll(ServerLevel level, Creeper creeper, Vec3 center, float radius) {
         UUID session = sessionId(creeper);
@@ -1240,15 +1230,7 @@ public final class MobRagdollAssembly {
     }
 
     public static void applyKnockup(ServerLevel level, UUID session) {
-        RagdollState state = state(level, session);
-        if (state == null) return;
-        Set<ServerSubLevel> bodies = new java.util.HashSet<>();
-        for (SpawnedPart spawned : state.parts()) {
-            ServerSubLevel body = spawned.subLevel();
-            if (body.isRemoved() || !bodies.add(body)) continue;
-            RigidBodyHandle.of(body).addLinearAndAngularVelocity(new Vector3d(0, KNOCKUP_STRENGTH, 0),
-                    new Vector3d((Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2));
-        }
+        // Knockup on hit disabled in Bleedout fork to avoid unnatural ragdoll launches.
     }
 
     public static void applyKnockupForPart(ServerLevel level, BlockPos partPos) {

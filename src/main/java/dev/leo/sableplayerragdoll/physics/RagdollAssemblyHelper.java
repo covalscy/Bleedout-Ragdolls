@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls and added anatomical joint angular limits
 package dev.leo.sableplayerragdoll.physics;
 
 import com.mojang.authlib.GameProfile;
@@ -11,6 +12,7 @@ import dev.leo.sableplayerragdoll.block.entity.RagdollPartBlockEntity.BodyPart;
 import dev.leo.sableplayerragdoll.config.RagdollSettings;
 import dev.ryanhcode.sable.api.SubLevelAssemblyHelper;
 import dev.ryanhcode.sable.api.physics.constraint.ConstraintJointAxis;
+import dev.ryanhcode.sable.api.physics.constraint.GenericConstraintHandle;
 import dev.ryanhcode.sable.api.physics.constraint.PhysicsConstraintConfiguration;
 import dev.ryanhcode.sable.api.physics.constraint.PhysicsConstraintHandle;
 import dev.ryanhcode.sable.companion.math.BoundingBox3i;
@@ -287,7 +289,7 @@ public final class RagdollAssemblyHelper {
             return subLevel;
          }
       } catch (Throwable error) {
-         SablePlayerRagdoll.LOGGER.warn("[sable_player_ragdoll] failed to spawn ragdoll part {} at {}: {}", part.name(), pos, error.toString());
+         SablePlayerRagdoll.LOGGER.warn("[bleedout_ragdolls] failed to spawn ragdoll part {} at {}: {}", part.name(), pos, error.toString());
       }
 
       level.setBlock(pos, previous, 3);
@@ -297,7 +299,7 @@ public final class RagdollAssemblyHelper {
    private static int attachSpawnedParts(ServerLevel level, Map<BodyPart, SpawnedPart> parts, boolean suppressLegContacts, RagdollLimbOptions limbs) {
       SubLevelPhysicsSystem physicsSystem = SubLevelPhysicsSystem.get(level);
       if (physicsSystem == null) {
-         SablePlayerRagdoll.LOGGER.warn("[sable_player_ragdoll] ragdoll constraints skipped: no physics system");
+         SablePlayerRagdoll.LOGGER.warn("[bleedout_ragdolls] ragdoll constraints skipped: no physics system");
          return 0;
       }
 
@@ -395,6 +397,9 @@ public final class RagdollAssemblyHelper {
          );
          PhysicsConstraintHandle handle = SableConstraintCompat.addConstraint(physicsSystem.getPipeline(), first.subLevel(), second.subLevel(), config);
          handle.setContactsEnabled(RagdollSettings.partSelfCollision());
+         if (handle instanceof GenericConstraintHandle genericHandle) {
+            applyJointLimits(genericHandle, bodyPart);
+         }
          if (rootId != null) {
             JOINTS_BY_ROOT.computeIfAbsent(rootId, unused -> new EnumMap<>(BodyPart.class))
                .put(bodyPart, new RagdollJoint(handle, new Vector3d(angularTarget), angularStiffness, angularDamping));
@@ -407,9 +412,37 @@ public final class RagdollAssemblyHelper {
 
          return 1;
       } catch (Throwable error) {
-         SablePlayerRagdoll.LOGGER.warn("[sable_player_ragdoll] failed to attach ragdoll constraint {}: {}", name, error.toString());
+         SablePlayerRagdoll.LOGGER.warn("[bleedout_ragdolls] failed to attach ragdoll constraint {}: {}", name, error.toString());
          return 0;
       }
+   }
+
+   /** Constrains each joint to anatomical rotation bounds strictly inside [-80, +80] deg to avoid Rapier Euler gimbal-lock impulses. */
+   private static void applyJointLimits(GenericConstraintHandle handle, BodyPart bodyPart) {
+      JointLimits limits = jointLimits(bodyPart);
+      if (limits == null) return;
+      handle.setLimit(ConstraintJointAxis.ANGULAR_X, Math.toRadians(limits.minPitchDeg()), Math.toRadians(limits.maxPitchDeg()));
+      handle.setLimit(ConstraintJointAxis.ANGULAR_Y, Math.toRadians(limits.minYawDeg()), Math.toRadians(limits.maxYawDeg()));
+      handle.setLimit(ConstraintJointAxis.ANGULAR_Z, Math.toRadians(limits.minRollDeg()), Math.toRadians(limits.maxRollDeg()));
+   }
+
+   @Nullable
+   private static JointLimits jointLimits(BodyPart bodyPart) {
+      return switch (bodyPart) {
+         case HEAD -> new JointLimits(-35.0, 45.0, -60.0, 60.0, -25.0, 25.0);
+         case LEFT_ARM -> new JointLimits(-80.0, 55.0, -35.0, 35.0, -15.0, 80.0);
+         case RIGHT_ARM -> new JointLimits(-80.0, 55.0, -35.0, 35.0, -80.0, 15.0);
+         case LEFT_LEG -> new JointLimits(-80.0, 40.0, -20.0, 20.0, -10.0, 40.0);
+         case RIGHT_LEG -> new JointLimits(-80.0, 40.0, -20.0, 20.0, -40.0, 10.0);
+         case TORSO -> null;
+      };
+   }
+
+   private record JointLimits(
+      double minPitchDeg, double maxPitchDeg,
+      double minYawDeg, double maxYawDeg,
+      double minRollDeg, double maxRollDeg
+   ) {
    }
 
    private static JointAnchor jointAnchor(BodyPart part, double sideOffset) {
@@ -493,6 +526,12 @@ public final class RagdollAssemblyHelper {
          if (config.initialPitchDegrees().isPresent()) pitch = Math.toRadians(config.initialPitchDegrees().getAsDouble());
          if (config.initialYawDegrees().isPresent()) yaw = Math.toRadians(config.initialYawDegrees().getAsDouble());
          if (config.initialRollDegrees().isPresent()) roll = Math.toRadians(config.initialRollDegrees().getAsDouble());
+      }
+      JointLimits limits = jointLimits(part.bodyPart());
+      if (limits != null) {
+         pitch = Math.clamp(pitch, Math.toRadians(limits.minPitchDeg()), Math.toRadians(limits.maxPitchDeg()));
+         yaw = Math.clamp(yaw, Math.toRadians(limits.minYawDeg()), Math.toRadians(limits.maxYawDeg()));
+         roll = Math.clamp(roll, Math.toRadians(limits.minRollDeg()), Math.toRadians(limits.maxRollDeg()));
       }
       return new Vector3d(pitch, yaw, roll);
    }

@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.mob;
 
 import net.minecraft.core.HolderLookup;
@@ -13,7 +14,7 @@ public final class MobRagdollSavedData extends SavedData {
             MobRagdollSavedData::new, MobRagdollSavedData::load, null);
 
     public static ListTag legacyEntries(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(FACTORY, "sable_player_ragdoll_mob_ragdolls").entries.copy();
+        return level.getDataStorage().computeIfAbsent(FACTORY, "bleedout_ragdolls_mob_ragdolls").entries.copy();
     }
 
     private static MobRagdollSavedData load(CompoundTag tag, HolderLookup.Provider registries) {

@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): removed manual H keybind registration
 package dev.leo.sableplayerragdoll.neoforge;
 
 import dev.leo.sableplayerragdoll.block.RagdollPartBlock;
@@ -9,7 +10,6 @@ import dev.leo.sableplayerragdoll.neoforge.client.RagdollDollEntityRenderer;
 import dev.leo.sableplayerragdoll.neoforge.client.RagdollControlsHint;
 import dev.leo.sableplayerragdoll.neoforge.client.RagdollControlsHud;
 import dev.leo.sableplayerragdoll.neoforge.client.RagdollInputClient;
-import dev.leo.sableplayerragdoll.neoforge.client.RagdollKeybinds;
 import dev.leo.sableplayerragdoll.neoforge.client.RagdollPartBlockEntityRenderer;
 import dev.leo.sableplayerragdoll.neoforge.client.RagdollSeatEntityRenderer;
 import dev.leo.sableplayerragdoll.neoforge.client.RagdollGrabClient;
@@ -34,14 +34,13 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderer
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
-@Mod(value = "sable_player_ragdoll", dist = {Dist.CLIENT})
+@Mod(value = "bleedout_ragdolls", dist = {Dist.CLIENT})
 public final class SablePlayerRagdollNeoForgeClient {
    @SuppressWarnings("unchecked")
    public SablePlayerRagdollNeoForgeClient(ModContainer container, IEventBus modBus) {
       container.registerExtensionPoint(IConfigScreenFactory.class, (IConfigScreenFactory) ConfigurationScreen::new);
       RagdollClientConfig.register(container);
       RagdollCameraHelper.init();
-      RagdollKeybinds.init(modBus);
       RagdollInputClient.init();
       RagdollControlsHint.init();
       RagdollGrabClient.init();
@@ -64,7 +63,7 @@ public final class SablePlayerRagdollNeoForgeClient {
 
    private static void registerGuiLayers(RegisterGuiLayersEvent event) {
       event.registerAboveAll(
-         ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "ragdoll_controls"),
+         ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "ragdoll_controls"),
          RagdollControlsHud::render
       );
    }

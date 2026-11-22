@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): adjusted part collision shapes for more stable floor/limb physics
 package dev.leo.sableplayerragdoll.block;
 
 import dev.leo.sableplayerragdoll.physics.RagdollBlockLifetime;
@@ -30,10 +31,10 @@ public final class RagdollPartBlock extends Block implements EntityBlock, BlockS
    private static final VoxelShape ARM_OUTLINE_SHAPE = Block.box(5.0, 2.0, 6.0, 9.0, 14.0, 10.0);
    private static final VoxelShape LEG_OUTLINE_SHAPE = Block.box(5.0, 2.0, 6.0, 9.0, 14.0, 10.0);
 
-   private static final VoxelShape HEAD_COLLISION_SHAPE = Block.box(4.0, 6.0, 4.0, 12.0, 10.0, 12.0);
-   private static final VoxelShape TORSO_COLLISION_SHAPE = Block.box(5.0, 3.0, 6.0, 11.0, 12.0, 10.0);
-   private static final VoxelShape ARM_COLLISION_SHAPE = Block.box(6.0, 3.0, 6.0, 8.0, 13.0, 10.0);
-   private static final VoxelShape LEG_COLLISION_SHAPE = Block.box(6.0, 3.0, 6.0, 8.0, 13.0, 10.0);
+   private static final VoxelShape HEAD_COLLISION_SHAPE = Block.box(4.0, 4.5, 4.0, 12.0, 11.5, 12.0);
+   private static final VoxelShape TORSO_COLLISION_SHAPE = Block.box(4.5, 2.5, 6.0, 11.5, 13.5, 10.0);
+   private static final VoxelShape ARM_COLLISION_SHAPE = Block.box(5.5, 2.5, 6.0, 8.5, 13.5, 10.0);
+   private static final VoxelShape LEG_COLLISION_SHAPE = Block.box(5.5, 2.5, 6.0, 8.5, 13.5, 10.0);
 
    public RagdollPartBlock(Properties properties) {
       super(properties);

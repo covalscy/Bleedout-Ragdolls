@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.neoforge.client;
 
 import java.util.List;
@@ -41,9 +42,9 @@ public final class RagdollControlsHint {
    private static List<Component> buildLines() {
       Minecraft minecraft = Minecraft.getInstance();
       return List.of(
-         Component.translatable("sable_player_ragdoll.ragdoll.controls.line1"),
+         Component.translatable("bleedout_ragdolls.ragdoll.controls.line1"),
          Component.translatable(
-            "sable_player_ragdoll.ragdoll.controls.line2",
+            "bleedout_ragdolls.ragdoll.controls.line2",
             keyLabel(minecraft.options.keyAttack, LEFT_COLOR),
             keyLabel(minecraft.options.keyUse, RIGHT_COLOR),
             keyLabel(minecraft.options.keySprint, LEFT_COLOR),

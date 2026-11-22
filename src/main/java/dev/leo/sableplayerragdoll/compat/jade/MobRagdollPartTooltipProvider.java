@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.compat.jade;
 
 import net.minecraft.nbt.CompoundTag;
@@ -11,7 +12,7 @@ import snownee.jade.api.config.IPluginConfig;
 public final class MobRagdollPartTooltipProvider implements IBlockComponentProvider {
     public static final MobRagdollPartTooltipProvider INSTANCE = new MobRagdollPartTooltipProvider();
 
-    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "mob_ragdoll_part");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "mob_ragdoll_part");
 
     private MobRagdollPartTooltipProvider() {
     }

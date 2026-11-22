@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll;
 
 import dev.leo.sableplayerragdoll.physics.RagdollRegistry;
@@ -9,6 +10,6 @@ public final class SablePlayerRagdollBootstrap {
 
    public static void init() {
       SableEventPlatform.INSTANCE.onPostPhysicsTick(RagdollRegistry::onPostPhysicsTick);
-      SablePlayerRagdoll.LOGGER.info("[sable_player_ragdoll] post-physics ragdoll hook registered");
+      SablePlayerRagdoll.LOGGER.info("[bleedout_ragdolls] post-physics ragdoll hook registered");
    }
 }

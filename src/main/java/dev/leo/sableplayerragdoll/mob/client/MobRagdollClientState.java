@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.mob.client;
 
 import java.util.Collections;
@@ -7,7 +8,7 @@ import net.minecraft.world.entity.Entity;
 
 public final class MobRagdollClientState {
     private static final Set<Entity> HIDDEN_SOURCES = Collections.newSetFromMap(new WeakHashMap<>());
-    private static final String DEATH_PENDING_UNTIL = "sable_player_ragdoll_death_pending_until";
+    private static final String DEATH_PENDING_UNTIL = "bleedout_ragdolls_death_pending_until";
     private static final int DEATH_PENDING_TICKS = 60;
 
     private MobRagdollClientState() {

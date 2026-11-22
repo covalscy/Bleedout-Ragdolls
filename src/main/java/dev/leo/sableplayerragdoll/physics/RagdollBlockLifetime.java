@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.physics;
 
 import dev.leo.sableplayerragdoll.block.entity.RagdollPartBlockEntity;
@@ -14,7 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.UUID;
 
 public final class RagdollBlockLifetime {
-    public static final String SOURCE_SESSION = "sable_player_ragdoll_session";
+    public static final String SOURCE_SESSION = "bleedout_ragdolls_session";
     public static final int CREATION_GRACE_TICKS = 40;
     private RagdollBlockLifetime() {}
 

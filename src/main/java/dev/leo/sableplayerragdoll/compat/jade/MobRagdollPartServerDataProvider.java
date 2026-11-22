@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.compat.jade;
 
 import dev.leo.sableplayerragdoll.mob.block.MobPartRole;
@@ -14,7 +15,7 @@ import snownee.jade.api.IServerDataProvider;
 public final class MobRagdollPartServerDataProvider implements IServerDataProvider<BlockAccessor> {
     public static final MobRagdollPartServerDataProvider INSTANCE = new MobRagdollPartServerDataProvider();
 
-    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("sable_player_ragdoll", "mob_ragdoll_part_data");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("bleedout_ragdolls", "mob_ragdoll_part_data");
 
     private MobRagdollPartServerDataProvider() {
     }

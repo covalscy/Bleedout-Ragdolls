@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): tuned ragdoll grab physics for smoother dragging
 package dev.leo.sableplayerragdoll.block.entity;
 
 import dev.leo.sableplayerragdoll.physics.RagdollBlockIdentity;
@@ -70,12 +71,12 @@ public final class RagdollPartBlockEntity extends BlockEntity implements BlockEn
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
     }
 
-   private static final double GRAB_STIFFNESS = 500.0;
-   private static final double GRAB_DAMPING = 50.0;
-   private static final double GRAB_MAX_FORCE = 200.0;
-   private static final double GRAB_HOLD_DISTANCE = 1.0;
-   private static final double GRAB_ANCHOR_Y_OFFSET = -0.6;
-   private static final double GRAB_MAX_DISTANCE = 4.0;
+   private static final double GRAB_STIFFNESS = 220.0;
+   private static final double GRAB_DAMPING = 38.0;
+   private static final double GRAB_MAX_FORCE = 115.0;
+   private static final double GRAB_HOLD_DISTANCE = 1.25;
+   private static final double GRAB_ANCHOR_Y_OFFSET = -0.85;
+   private static final double GRAB_MAX_DISTANCE = 5.0;
    private BodyPart bodyPart = BodyPart.TORSO;
    @Nullable
    private UUID skinUuid;

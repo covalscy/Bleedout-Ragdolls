@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.mob;
 
 import com.google.gson.JsonArray;
@@ -16,7 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 
 public final class MobRagdollWhitelist {
-   private static final String RESOURCE_PATH = "/sable_player_ragdoll/mob_ragdoll_whitelist.json";
+   private static final String RESOURCE_PATH = "/bleedout_ragdolls/mob_ragdoll_whitelist.json";
    private static volatile Data data;
 
    private MobRagdollWhitelist() {
@@ -72,7 +73,7 @@ public final class MobRagdollWhitelist {
       try (InputStream in = MobRagdollWhitelist.class.getResourceAsStream(RESOURCE_PATH)) {
          if (in == null) {
             SablePlayerRagdoll.LOGGER.warn(
-               "[sable_player_ragdoll] mob ragdoll whitelist {} not found; no mobs can be ragdolled", RESOURCE_PATH);
+               "[bleedout_ragdolls] mob ragdoll whitelist {} not found; no mobs can be ragdolled", RESOURCE_PATH);
             return Data.EMPTY;
          }
          JsonObject root = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
@@ -80,12 +81,12 @@ public final class MobRagdollWhitelist {
          Set<String> entities = readStringArray(root, "entities");
          Set<String> namespaces = readStringArray(root, "namespaces");
          SablePlayerRagdoll.LOGGER.info(
-            "[sable_player_ragdoll] mob ragdoll whitelist loaded: allow_all={}, {} entities, {} namespaces",
+            "[bleedout_ragdolls] mob ragdoll whitelist loaded: allow_all={}, {} entities, {} namespaces",
             allowAll, entities.size(), namespaces.size());
          return new Data(allowAll, entities, namespaces);
       } catch (Exception error) {
          SablePlayerRagdoll.LOGGER.error(
-            "[sable_player_ragdoll] failed to read mob ragdoll whitelist {}: {}", RESOURCE_PATH, error.toString());
+            "[bleedout_ragdolls] failed to read mob ragdoll whitelist {}: {}", RESOURCE_PATH, error.toString());
          return Data.EMPTY;
       }
    }

@@ -1,3 +1,4 @@
+// Modified by covalscy (Bleedout fork): updated mod ID to bleedout_ragdolls
 package dev.leo.sableplayerragdoll.neoforge;
 
 import dev.leo.sableplayerragdoll.physics.RagdollBlockOwnership;
@@ -115,7 +116,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
-@Mod("sable_player_ragdoll")
+@Mod("bleedout_ragdolls")
 public final class SablePlayerRagdollNeoForge {
    public SablePlayerRagdollNeoForge(IEventBus modBus, ModContainer modContainer) {
       RagdollBlockRegistration.register(modBus);
@@ -542,7 +543,7 @@ public final class SablePlayerRagdollNeoForge {
    private static void onRegisterCommands(RegisterCommandsEvent event) {
       event.getDispatcher().register(RagdollCommand.build());
       event.getDispatcher().register(
-         Commands.literal("sable_player_ragdoll")
+         Commands.literal("bleedout_ragdolls")
             .requires(source -> source.hasPermission(2))
             .then(Commands.literal("dummy")
                .executes(context -> spawnDummyRagdoll(
@@ -947,7 +948,7 @@ public final class SablePlayerRagdollNeoForge {
             return result.profile();
          }
       } catch (Throwable error) {
-         SablePlayerRagdoll.LOGGER.warn("[sable_player_ragdoll] failed to resolve skin for {}: {}", profile.getName(), error.toString());
+         SablePlayerRagdoll.LOGGER.warn("[bleedout_ragdolls] failed to resolve skin for {}: {}", profile.getName(), error.toString());
       }
 
       return profile;

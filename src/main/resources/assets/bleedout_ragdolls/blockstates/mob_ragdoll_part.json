@@ -1,0 +1,9 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "bleedout_ragdolls:block/mob_ragdoll_part"
+      }
+    }
+  ]
+}
