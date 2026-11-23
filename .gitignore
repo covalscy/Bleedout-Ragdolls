@@ -14,7 +14,11 @@ runs/
 docs/
 *.log
 *.log.gz
+*.hprof
+logs/
 crash-reports/
+/*.jar
+.agent/
 .DS_Store
 Thumbs.db
 bin/
